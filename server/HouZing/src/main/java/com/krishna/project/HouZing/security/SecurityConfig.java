@@ -1,5 +1,6 @@
 package com.krishna.project.HouZing.security;
 
+import com.krishna.project.HouZing.entity.type.UserRole;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -34,9 +35,15 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Use stateless sessions for REST APIs
                 )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**").permitAll() // Allow unauthenticated access to auth endpoints
 
-                        .requestMatchers("/admin/**").authenticated()
+                                .requestMatchers("/auth/signup").hasRole(UserRole.ADMIN.name())
+
+                                .requestMatchers("/auth/**").permitAll() // Allow unauthenticated access to auth endpoints
+
+                                .requestMatchers("/residents/**").hasRole(UserRole.RESIDENT.name()) // Require authentication for residents endpoints
+
+                                .requestMatchers("/admin/**").hasRole(UserRole.ADMIN.name())
+
                          // Require authentication for all other requests
 
                 )

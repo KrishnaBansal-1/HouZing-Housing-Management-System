@@ -1,11 +1,12 @@
 package com.krishna.project.HouZing.security;
 
-import com.krishna.project.HouZing.dto.LoginRequestDto;
-import com.krishna.project.HouZing.dto.LoginResponseDto;
-import com.krishna.project.HouZing.dto.SignUpRequestDto;
-import com.krishna.project.HouZing.dto.SignUpResponseDto;
+import com.krishna.project.HouZing.dto.*;
 import com.krishna.project.HouZing.entity.HUser;
+import com.krishna.project.HouZing.entity.Residents;
+import com.krishna.project.HouZing.entity.type.UserRole;
 import com.krishna.project.HouZing.repository.HUserRepository;
+import com.krishna.project.HouZing.repository.ResidentsRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.catalina.Authenticator;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,6 +23,7 @@ public class AuthService {
     private final AuthUtil authUtil;
     private final HUserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final ResidentsRepository residentsRepository;
 
     public LoginResponseDto login(LoginRequestDto loginRequestDto) {
 
@@ -38,6 +40,7 @@ public class AuthService {
 
     }
 
+    @Transactional
     public SignUpResponseDto signup(SignUpRequestDto signUpRequestDto) {
 
         HUser user = userRepository.findByUsername(signUpRequestDto.getUsername()).orElse(null);
@@ -50,8 +53,36 @@ public class AuthService {
                 HUser.builder()
                         .username(signUpRequestDto.getUsername())
                         .password(passwordEncoder.encode(signUpRequestDto.getPassword()))
+                        .roles(signUpRequestDto.getRoles())
                         .build()
         );
+
+        if (signUpRequestDto.getRoles().contains(UserRole.RESIDENT)) {
+            Residents resident = Residents.builder()
+                    .user(user)
+                    .houseNo(signUpRequestDto.getHouseNo())
+                    .phoneNo(signUpRequestDto.getPhoneNo())
+                    .isActive(true)
+                    .build();
+            residentsRepository.save(resident);
+        }
+        return new SignUpResponseDto(user.getId(), user.getUsername());
+    }
+
+    public SignUpResponseDto changePassword(ChangePasswordDto changePasswordDto){
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(changePasswordDto.getUsername(), changePasswordDto.getPassword())
+        );
+
+        HUser user = (HUser) authentication.getPrincipal();
+
+        if (user == null){
+            throw new IllegalArgumentException("Invalid username or password");
+        }
+
+        user.setPassword(passwordEncoder.encode(changePasswordDto.getNewPassword()));
+        userRepository.save(user);
+
         return new SignUpResponseDto(user.getId(), user.getUsername());
     }
 }

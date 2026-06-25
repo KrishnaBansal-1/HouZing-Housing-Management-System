@@ -1,16 +1,10 @@
 package com.krishna.project.HouZing.controller;
 
-import com.krishna.project.HouZing.dto.LoginRequestDto;
-import com.krishna.project.HouZing.dto.LoginResponseDto;
-import com.krishna.project.HouZing.dto.SignUpRequestDto;
-import com.krishna.project.HouZing.dto.SignUpResponseDto;
+import com.krishna.project.HouZing.dto.*;
 import com.krishna.project.HouZing.security.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth/")
@@ -28,5 +22,12 @@ public class AuthController {
     ResponseEntity<SignUpResponseDto> signup(@RequestBody SignUpRequestDto signUpRequestDto) {
         SignUpResponseDto signUpResponseDto = authService.signup(signUpRequestDto);
         return ResponseEntity.ok(signUpResponseDto);
+    }
+
+    @PutMapping("/change-password")
+    ResponseEntity<SignUpResponseDto> changePass(@RequestBody ChangePasswordDto changePasswordDto){
+        return ResponseEntity.ok(
+                authService.changePassword(changePasswordDto)
+        );
     }
 }
