@@ -44,6 +44,13 @@ public class SecurityConfig {
 
                                 .requestMatchers("/admin/**").hasRole(UserRole.ADMIN.name())
 
+                                .requestMatchers("/visitor/register", "/visitor/visitor-exit/**").hasRole(UserRole.GUARD.name())
+
+                                .requestMatchers("/visitor/approve", "/visitor/my", "/visitor/preregister").hasRole(UserRole.RESIDENT.name())
+
+                                .requestMatchers("/visitor/all").hasAnyRole(UserRole.ADMIN.name(), UserRole.GUARD.name())
+
+
                          // Require authentication for all other requests
 
                 )

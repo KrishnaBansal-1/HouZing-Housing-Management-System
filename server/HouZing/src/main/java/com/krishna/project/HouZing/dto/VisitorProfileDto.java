@@ -1,39 +1,29 @@
-package com.krishna.project.HouZing.entity;
+package com.krishna.project.HouZing.dto;
 
 import com.krishna.project.HouZing.entity.type.VisitorStatus;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-@Entity
-@Getter
-@Setter
-@NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class Visitor {
+@NoArgsConstructor
+@Data
+public class VisitorProfileDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(nullable = false)
     private String name;
 
     private String purposeOfVisit;
 
-    @Column(nullable = false)
     private Long phoneNo;
 
-    @Column(nullable = false)
     private Long houseNo;
 
-    @Column(nullable = false)
     private LocalDateTime entryTime;
 
     private LocalDateTime exitTime;
 
-    @Enumerated(EnumType.STRING)
     private VisitorStatus status;
 }

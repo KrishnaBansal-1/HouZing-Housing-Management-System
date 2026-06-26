@@ -21,6 +21,7 @@ public class ResidentsController {
     @GetMapping("/profile")
     public ResponseEntity<ResidentProfileDto> getProfile() {
         HUser user = (HUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (user == null) throw new IllegalArgumentException("User Not found");
         Long residentId = user.getId();
         // Populate profileDto with resident information
         return ResponseEntity.ok(
