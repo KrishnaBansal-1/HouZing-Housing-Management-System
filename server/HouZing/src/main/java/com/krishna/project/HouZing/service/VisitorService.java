@@ -6,7 +6,6 @@ import com.krishna.project.HouZing.dto.VisitorRequestDto;
 import com.krishna.project.HouZing.dto.VisitorResponseDto;
 import com.krishna.project.HouZing.entity.Visitor;
 import com.krishna.project.HouZing.entity.type.VisitorStatus;
-import com.krishna.project.HouZing.repository.HUserRepository;
 import com.krishna.project.HouZing.repository.ResidentsRepository;
 import com.krishna.project.HouZing.repository.VisitorRepository;
 import jakarta.transaction.Transactional;
@@ -49,6 +48,7 @@ public class VisitorService {
     public VisitorProfileDto findById(Long visitorTokenNo) {
         Visitor visitor = visitorRepository.findById(visitorTokenNo).orElseThrow(() -> new IllegalArgumentException("Visitor not found"));
         return new VisitorProfileDto(
+                visitor.getId(),
                 visitor.getName(),
                 visitor.getPurposeOfVisit(),
                 visitor.getPhoneNo(),
@@ -94,6 +94,7 @@ public class VisitorService {
     public List<VisitorProfileDto> findByHouseNo(Long houseNo) {
         List<Visitor> visitors = visitorRepository.findByHouseNo(houseNo);
         return visitors.stream().map(visitor -> new VisitorProfileDto(
+                visitor.getId(),
                 visitor.getName(),
                 visitor.getPurposeOfVisit(),
                 visitor.getPhoneNo(),
@@ -107,6 +108,7 @@ public class VisitorService {
     public List<VisitorProfileDto> findAll() {
         List<Visitor> visitors = visitorRepository.findAll();
         return visitors.stream().map(visitor -> new VisitorProfileDto(
+                visitor.getId(),
                 visitor.getName(),
                 visitor.getPurposeOfVisit(),
                 visitor.getPhoneNo(),

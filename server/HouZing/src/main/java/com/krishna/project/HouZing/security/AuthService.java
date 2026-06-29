@@ -15,6 +15,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -36,7 +38,9 @@ public class AuthService {
 
         String token = authUtil.generateAccessToken(user);
 
-        return new LoginResponseDto(user.getId(), token);
+        List<UserRole> userRoleList = user.getRoles().stream().toList();
+
+        return new LoginResponseDto(user.getId(), token, userRoleList.getFirst(), user.getUsername());
 
     }
 
