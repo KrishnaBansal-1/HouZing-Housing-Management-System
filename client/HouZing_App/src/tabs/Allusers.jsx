@@ -11,7 +11,7 @@ const Allusers = (props) => {
             const response = await getAllUsers();
             setUsers(response);
         } catch (error) {
-            console.error('Error fetching users:', error.data.message);
+            alert('Error fetching users:', error.data.message);
         }
     };
     

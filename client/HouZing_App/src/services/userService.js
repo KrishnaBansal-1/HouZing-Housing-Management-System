@@ -18,3 +18,14 @@ export const getAllResidents = async () => {
     }
 };
 
+export const changePassword = async (username, newpassword) => {
+    try {
+        const response = await api.put("/auth/change-password", {
+            username: username,
+            newPassword : newpassword
+        });
+        return response.data;
+    } catch (error) {
+        throw error.response?.data || error;
+    }
+};

@@ -11,7 +11,7 @@ const Allresidents = (props) => {
             const data = await getAllResidents();
             setResidents(data);
         } catch (error) {
-            console.error('Error fetching residents:', error.data.message);
+            alert('Error fetching residents:', error.data.message);
         }
     };
     

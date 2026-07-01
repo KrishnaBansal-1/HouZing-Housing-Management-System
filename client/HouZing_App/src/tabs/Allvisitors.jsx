@@ -11,7 +11,7 @@ const Allvisitors = (props) => {
             const data = await (props.isResident ? getMyVisitor() : getAllVisitors());
             setVisitors(data);
         } catch (error) {
-            console.error('Error fetching visitors:', error.data.message);
+            alert('Error fetching visitors:', error.data.message);
         }
     };
     
