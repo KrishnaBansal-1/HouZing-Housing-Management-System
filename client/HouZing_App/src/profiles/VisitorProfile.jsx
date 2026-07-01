@@ -1,10 +1,10 @@
 import React from 'react'
-import '../styles/VisitorProfile.css'
+import '../styles/profilestyle.css'
 
 const VisitorProfile = (props) => {
   const { visitor } = props;
   return (
-    <div className="visitorbox">
+    <div className="profilebox">
         <h5>Visitor Id : {visitor?.id}</h5>
         <h5>Name : {visitor?.name}</h5>
         <h5>Contact : {visitor?.phoneNo}</h5>

@@ -1,14 +1,14 @@
 import React from 'react'
-import { getAllVisitors } from '../services/visitorService';
+import { getAllVisitors, getMyVisitor } from '../services/visitorService';
 import VisitorProfile from '../profiles/VisitorProfile';
-import '../styles/Allvisitors.css'
+import '../styles/Allentity.css'
 
-const Allvisitors = () => {
+const Allvisitors = (props) => {
     const [visitors, setVisitors] = React.useState([]);
 
     const fetchAllVisitors = async () => {
         try {
-            const data = await getAllVisitors();
+            const data = await (props.isResident ? getMyVisitor() : getAllVisitors());
             setVisitors(data);
         } catch (error) {
             console.error('Error fetching visitors:', error.data.message);
@@ -20,7 +20,7 @@ const Allvisitors = () => {
     }, []);
 
     return (
-        <div className='allvisitors'>
+        <div className='allbox'>
         {
             visitors.map(
                 (v) => <VisitorProfile key={v.id} visitor={v} />

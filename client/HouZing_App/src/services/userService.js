@@ -9,7 +9,7 @@ export const getAllUsers = async () => {
     }
 };
 
-export const getAllRessidents = async () => {
+export const getAllResidents = async () => {
     try {
         const response = await api.get("/admin/residents");
         return response.data;
@@ -17,3 +17,4 @@ export const getAllRessidents = async () => {
         throw error.response?.data || error;
     }
 };
+

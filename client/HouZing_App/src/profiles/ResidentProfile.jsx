@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import api from '../utils/api';
 import { getMyProfile } from '../services/residentService';
+import '../styles/profilestyle.css'
 
 const ResidentProfile = (props) => {
 
@@ -18,15 +19,18 @@ const ResidentProfile = (props) => {
     };
 
     useEffect(() => {
-        fetchResidentData();
+        if (props.resident == null)
+            fetchResidentData();
+        else
+            setResidentData(props.resident);
     }, []);
 
     return (
-        <div>
-            <h1>Username : {residentData?.username}</h1>
-            <h1>Phone Number : {residentData?.phoneNo}</h1>
-            <h1>House Number : {residentData?.houseNo}</h1>
-            <h1>Active status : {residentData?.isActive ? 'Active' : 'Inactive'}</h1>
+        <div className="profilebox">
+            <h4>Username : {residentData?.username}</h4>
+            <h4>Phone Number : {residentData?.phoneNo}</h4>
+            <h4>House Number : {residentData?.houseNo}</h4>
+            <h4>Active status : {residentData?.isActive ? 'Active' : 'Inactive'}</h4>
         </div>
     )
 }

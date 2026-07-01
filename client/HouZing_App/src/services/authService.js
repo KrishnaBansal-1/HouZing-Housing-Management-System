@@ -1,3 +1,4 @@
+import { resolvePath } from "react-router-dom";
 import api from "../utils/api";
 
 export const login = async (username, password) => {
@@ -13,12 +14,21 @@ export const login = async (username, password) => {
     }
 };
 
-// export const register = async (userData) => {
-//     try {
-//         const response = await api.post("/auth/register", userData);
-//         return response.data;
-//     } catch (error) {
-//         throw error.response?.data || error;
-//     }
-// };
+export const register = async (username, pass, role, house, phone) => {
+    console.log("Registering user with details:", { username, pass, role, house, phone });
+    try {
+        console.log("try")
+        const response = await api.post('/auth/signup', {
+            username : username,
+            password : pass,
+            roles : [role],
+            houseNo : house,
+            phoneNo : phone
+        });
+        console.log("hello\n")
+        return response.data;
+    } catch (error) {
+        throw error.response?.data || error;
+    }
+};
 

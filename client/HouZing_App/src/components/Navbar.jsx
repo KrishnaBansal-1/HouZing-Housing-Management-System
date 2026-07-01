@@ -19,10 +19,6 @@ function Navbar() {
     return (
         <div className="navhead">
             <h2>HouZing</h2>
-            <Link to="/">Home</Link>
-            <Link to="/resident">Residents</Link>
-            <Link to="/security">Security</Link>
-            <Link to="/admin">Admin</Link>
             {isLoggedIn ? <button onClick={() => handleLogOut()}>Logout</button> : <Link to="/login">Login</Link>}
         </div>
     )

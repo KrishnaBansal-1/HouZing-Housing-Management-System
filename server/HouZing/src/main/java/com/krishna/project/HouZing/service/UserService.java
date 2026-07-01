@@ -5,6 +5,8 @@ import com.krishna.project.HouZing.entity.HUser;
 import com.krishna.project.HouZing.repository.HUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,7 +21,7 @@ public class UserService {
         return users.stream().map(user -> new UserProfileDto(
                 user.getId(),
                 user.getUsername(),
-                user.getRoles()
+                new ArrayList<>(user.getRoles()).getFirst()
         )).toList();
     }
 }

@@ -13,8 +13,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Data
 public class UserProfileDto {
-    Long id;
-    String username;
-    @Enumerated(EnumType.STRING)
-    Set<UserRole> roles = new HashSet<>();
+    private Long id;
+    private String username;
+    private UserRole userRole;
 }

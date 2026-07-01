@@ -19,4 +19,8 @@
     width: 80%;
     height: 100%;
     background-color: red;
+    display: flex;
+    gap: 20px;            /* Space between cards */
+    align-items: center;
+    justify-content: center;
 }
