@@ -37,6 +37,8 @@ public class SecurityConfig {
 
                                 .requestMatchers("/auth/signup").hasRole(UserRole.ADMIN.name())
 
+                                .requestMatchers("/auth/change-password").authenticated()
+
                                 .requestMatchers("/auth/**").permitAll() // Allow unauthenticated access to auth endpoints
 
                                 .requestMatchers("/residents/**").hasRole(UserRole.RESIDENT.name()) // Require authentication for residents endpoints
@@ -48,6 +50,8 @@ public class SecurityConfig {
                                 .requestMatchers("/visitor/approve", "/visitor/my", "/visitor/preregister").hasRole(UserRole.RESIDENT.name())
 
                                 .requestMatchers("/visitor/all").hasAnyRole(UserRole.ADMIN.name(), UserRole.GUARD.name())
+
+                                 // Require authentication for change password endpoint
 
 
                          // Require authentication for all other requests

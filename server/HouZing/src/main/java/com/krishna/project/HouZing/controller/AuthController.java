@@ -1,10 +1,15 @@
 package com.krishna.project.HouZing.controller;
 
 import com.krishna.project.HouZing.dto.*;
+import com.krishna.project.HouZing.entity.HUser;
+import com.krishna.project.HouZing.entity.type.UserRole;
 import com.krishna.project.HouZing.security.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/auth/")
@@ -26,8 +31,12 @@ public class AuthController {
 
     @PutMapping("/change-password")
     ResponseEntity<SignUpResponseDto> changePass(@RequestBody ChangePasswordDto changePasswordDto){
+        HUser user = (HUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (user == null) throw new IllegalArgumentException("User Not found");
+        boolean isAdmin = false;
+        if (new ArrayList<>(user.getRoles()).getFirst() == UserRole.ADMIN) isAdmin = true;
         return ResponseEntity.ok(
-                authService.changePassword(changePasswordDto)
+                authService.changePassword(changePasswordDto, user, isAdmin)
         );
     }
 }

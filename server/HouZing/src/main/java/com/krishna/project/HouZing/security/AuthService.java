@@ -73,16 +73,12 @@ public class AuthService {
         return new SignUpResponseDto(user.getId(), user.getUsername());
     }
 
-    public SignUpResponseDto changePassword(ChangePasswordDto changePasswordDto){
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(changePasswordDto.getUsername(), changePasswordDto.getPassword())
-        );
+    public SignUpResponseDto changePassword(ChangePasswordDto changePasswordDto, HUser user, boolean isAdmin){
 
-        HUser user = (HUser) authentication.getPrincipal();
+        if (!isAdmin && !user.getUsername().equals(changePasswordDto.getUsername()))
+            throw new IllegalArgumentException("Not a Valid option User mismatch");
 
-        if (user == null){
-            throw new IllegalArgumentException("Invalid username or password");
-        }
+        user = userRepository.findByUsername(changePasswordDto.getUsername()).orElseThrow(() -> new IllegalArgumentException("User not found"));
 
         user.setPassword(passwordEncoder.encode(changePasswordDto.getNewPassword()));
         userRepository.save(user);
